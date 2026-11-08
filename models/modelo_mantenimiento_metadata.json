@@ -1,0 +1,28 @@
+{
+  "modelo": "LightGBM",
+  "fecha": "2026-11-04",
+  "umbral_decision": 0.1547,
+  "features_entrada": [
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "objetivo": "Machine failure",
+  "metricas_test": {
+    "pr_auc": 0.8656,
+    "roc_auc": 0.9714,
+    "recall": 0.897,
+    "precision": 0.598,
+    "f1": 0.718,
+    "f2": 0.816
+  },
+  "versiones": {
+    "python": "3.14.2",
+    "scikit_learn": "1.8.0",
+    "lightgbm": "4.6.0",
+    "xgboost": "3.2.0"
+  }
+}
