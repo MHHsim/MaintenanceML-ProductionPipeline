@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mantenimiento Predictivo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <h1>🔧 Mantenimiento Predictivo</h1>
+    <p class="subtitulo">
+      Introduce las lecturas de la máquina y el modelo estimará si es probable un fallo.
+    </p>
+
+    <form method="POST" action="/">
+      <div class="campo">
+        <label for="Type">Tipo de calidad del producto</label>
+        <select id="Type" name="Type">
+          {% for t in tipos %}
+          <option value="{{ t }}" {% if valores.get('Type') == t %}selected{% endif %}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      {% for col in features_num %}
+      <div class="campo">
+        <label for="{{ col }}">{{ col }}</label>
+        <input type="number" step="any" id="{{ col }}" name="{{ col }}"
+               value="{{ valores.get(col, '') }}" required>
+      </div>
+      {% endfor %}
+
+      <button type="submit">Predecir</button>
+    </form>
+
+    {% if error %}
+    <div class="resultado error">
+      <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    {% if resultado %}
+    <div class="resultado {{ 'fallo' if resultado.prediccion == 1 else 'ok' }}">
+      <div class="etiqueta">{{ resultado.etiqueta }}</div>
+      <div class="detalle">
+        Probabilidad de fallo estimada:
+        <strong>{{ (resultado.probabilidad_fallo * 100) | round(1) }} %</strong>
+      </div>
+      <div class="umbral">
+        Se marca como fallo a partir del {{ (resultado.umbral * 100) | round(1) }} %
+        (umbral ajustado para priorizar la detección de fallos).
+      </div>
+    </div>
+    {% endif %}
+
+    <footer>
+      Modelo: LightGBM · Umbral de decisión: {{ (umbral * 100) | round(1) }} % ·
+      <a href="/health">estado de la API</a>
+    </footer>
+  </main>
+</body>
+</html>

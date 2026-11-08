@@ -1,0 +1,15 @@
+# Dependencias mínimas para SERVIR el modelo en producción (API Flask).
+# Versiones fijadas a las usadas al entrenar y guardar el modelo (ver
+# models/modelo_mantenimiento_metadata.json): si cambian, el modelo podría
+# no cargarse correctamente.
+#
+# Para desarrollo y notebooks usar el requirements.txt completo de la raíz.
+
+flask==3.1.3
+flask-cors==6.0.5
+gunicorn==26.2.0
+scikit-learn==1.8.0
+lightgbm==4.6.0
+pandas==2.3.3
+numpy==2.4.3
+joblib==1.5.3
